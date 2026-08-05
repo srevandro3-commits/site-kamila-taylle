@@ -1,0 +1,1040 @@
+import pypdf
+
+# Check if logo pdf can be processed or extracted if needed
+try:
+    reader = pypdf.PdfReader('Logo_Kamila.pdf')
+    print("Logo PDF pages:", len(reader.pages))
+    text = reader.pages[0].extract_text()
+    print("Logo text:", text)
+except Exception as e:
+    print("Error reading logo PDF:", e)
+
+# Create index.html with ultra-polished design, gallery tabs/lightbox, and interactive calculator
+html_content = """<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kamila Taylle Fotografias | Portfólio & Orçamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8a3b58;
+            --primary-dark: #6b2d44;
+            --primary-light: #f7ecef;
+            --accent-gold: #d4af37;
+            --bg: #fcfbfa;
+            --card-bg: #ffffff;
+            --text-main: #2c2c2c;
+            --text-muted: #666666;
+            --whatsapp: #25d366;
+            --whatsapp-hover: #1eb854;
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.04);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Tipografia */
+        h1, h2, h3, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Top Bar Info */
+        .top-bar {
+            background: var(--primary-dark);
+            color: #ffffff;
+            font-size: 0.78rem;
+            text-align: center;
+            padding: 6px 15px;
+            letter-spacing: 1px;
+        }
+
+        /* Header / Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .header-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+        }
+
+        .brand-logo {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .brand-logo .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .brand-logo .subtitle {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 22px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.2s;
+            position: relative;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Banner Hero */
+        .hero {
+            padding: 50px 20px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(247, 236, 239, 0.5) 0%, rgba(252, 251, 250, 1) 100%);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Carrossel / Grid de Capa */
+        .capa-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .capa-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            aspect-ratio: 3/4;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .capa-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .capa-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Seções Container */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+            margin: 8px auto 0;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* Galeria Interativa com Abas */
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-main);
+        }
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .gallery-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .gallery-card .tag {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Modal Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            font-weight: 300;
+        }
+
+        /* Pacotes & Serviços */
+        .category-subtitle {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-subtitle::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .pacotes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card-pacote {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 30px 25px;
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease;
+        }
+
+        .card-pacote:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-pacote.featured {
+            border: 2px solid var(--primary);
+            background: #fffdfd;
+        }
+
+        .card-pacote.featured::before {
+            content: 'MAIS POPULAR';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 10px;
+            letter-spacing: 1px;
+        }
+
+        .card-pacote h3 {
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .card-pacote .desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .card-pacote ul {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .card-pacote ul li {
+            font-size: 0.88rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: #444;
+        }
+
+        .card-pacote ul li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Formulário de Orçamento */
+        .form-wrapper {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full {
+            grid-column: span 2;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dcdcdc;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fafafa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(138, 59, 88, 0.15);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .option-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f8f8f8;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #e8e8e8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            user-select: none;
+        }
+
+        .option-card:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .option-card input[type="radio"],
+        .option-card input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Resumo Dinâmico */
+        .budget-summary {
+            background: var(--primary-light);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 10px;
+            border: 1px dashed var(--primary);
+        }
+
+        .budget-summary h4 {
+            color: var(--primary-dark);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        .budget-summary p {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        .btn-whatsapp {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background: var(--whatsapp);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .btn-whatsapp:hover {
+            background: var(--whatsapp-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-whatsapp svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #b0b0b0;
+            padding: 50px 20px 30px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        footer .verse {
+            font-style: italic;
+            color: var(--accent-gold);
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin-bottom: 8px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 900px) {
+            .capa-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-group.full {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .capa-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-wrapper {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bar Superior -->
+    <div class="top-bar">
+        ✨ Atendimento em Goiânia, Anápolis e Região • WhatsApp: (62) 99321-5075
+    </div>
+
+    <!-- Header Fixo -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="brand-logo">
+                <span class="title">KAMILA TAYLLE</span>
+                <span class="subtitle">PHOTOGRAPHY</span>
+            </a>
+            <nav>
+                <a href="#galeria">Galeria</a>
+                <a href="#pacotes">Pacotes</a>
+                <a href="#orcamento">Orçamento</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero / Destaques Capa -->
+    <section class="hero">
+        <span class="hero-badge">Fotografia Afetiva & Profissional</span>
+        <h1>Eternizando Histórias & Memórias</h1>
+        <p>Especialista em ensaios femininos, 15 anos, família, bebês e momentos inesquecíveis.</p>
+        
+        <div class="capa-grid">
+            <div class="capa-item"><img src="001_Capa.jpeg" alt="Capa 1"></div>
+            <div class="capa-item"><img src="002_Capa.jpeg" alt="Capa 2"></div>
+            <div class="capa-item"><img src="003_Capa.jpeg" alt="Capa 3"></div>
+            <div class="capa-item"><img src="004_Capa.jpeg" alt="Capa 4"></div>
+            <div class="capa-item"><img src="005_Capa.jpg" alt="Capa 5"></div>
+        </div>
+    </section>
+
+    <!-- Galeria Principal -->
+    <section class="container" id="galeria">
+        <div class="section-header">
+            <h2>Nossa Galeria</h2>
+            <p>Confira alguns dos registros e ensaios recentes</p>
+        </div>
+
+        <div class="gallery-tabs">
+            <button class="tab-btn active" onclick="filterGallery('all')">Todos</button>
+            <button class="tab-btn" onclick="filterGallery('15anos')">15 Anos & Aniversários</button>
+            <button class="tab-btn" onclick="filterGallery('familia')">Família & Infantil</button>
+            <button class="tab-btn" onclick="filterGallery('ensaio')">Ensaios Feminino & Campo</button>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid">
+            <div class="gallery-card" data-category="15anos" onclick="openLightbox('001-Gaelria.jpg')">
+                <img src="001-Gaelria.jpg" alt="Aniversário Especial 31 Anos">
+                <span class="tag">Aniversário</span>
+            </div>
+            <div class="gallery-card" data-category="familia" onclick="openLightbox('002-Galeria.jpg')">
+                <img src="002-Galeria.jpg" alt="Ensaio Família e Gerações">
+                <span class="tag">Família</span>
+            </div>
+            <div class="gallery-card" data-category="familia" onclick="openLightbox('003-Galeria.jpg')">
+                <img src="003-Galeria.jpg" alt="Ensaio Infantil Temático Fazendinha">
+                <span class="tag">Infantil</span>
+            </div>
+            <div class="gallery-card" data-category="familia" onclick="openLightbox('004-Galeria.jpg')">
+                <img src="004-Galeria.jpg" alt="Ensaio Newborn e Bebê">
+                <span class="tag">Newborn</span>
+            </div>
+            <div class="gallery-card" data-category="15anos" onclick="openLightbox('005-Galeria.jpeg')">
+                <img src="005-Galeria.jpeg" alt="Ensaio 15 Anos - Balão Vermelho">
+                <span class="tag">15 Anos</span>
+            </div>
+            <div class="gallery-card" data-category="15anos" onclick="openLightbox('006-Galeria.jpg')">
+                <img src="006-Galeria.jpg" alt="Retrato 15 Anos - Coroa de Princesa">
+                <span class="tag">15 Anos</span>
+            </div>
+            <div class="gallery-card" data-category="15anos" onclick="openLightbox('007-Galeria.jpeg')">
+                <img src="007-Galeria.jpeg" alt="Ensaio 15 Anos - Estilo Prata">
+                <span class="tag">15 Anos</span>
+            </div>
+            <div class="gallery-card" data-category="ensaio" onclick="openLightbox('008-Galeria.jpg')">
+                <img src="008-Galeria.jpg" alt="Ensaio Feminino com Jornal e Estilo">
+                <span class="tag">Ensaio Feminino</span>
+            </div>
+            <div class="gallery-card" data-category="ensaio" onclick="openLightbox('009-Galeria.jpg')">
+                <img src="009-Galeria.jpg" alt="Ensaio Externo Country / Lagoa">
+                <span class="tag">Ensaio Externo</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="Imagem Ampliada" class="lightbox-img" id="lightboxImg">
+    </div>
+
+    <!-- Pacotes & Serviços -->
+    <section class="container" id="pacotes">
+        <div class="section-header">
+            <h2>Pacotes & Investimento</h2>
+            <p>Escolha o pacote ideal para registrar seus melhores momentos</p>
+        </div>
+
+        <div class="category-subtitle">
+            <span>🎉 Eventos (Casamentos • 15 Anos • Festas)</span>
+        </div>
+        <div class="pacotes-grid">
+            <div class="card-pacote">
+                <div>
+                    <h3>Essencial</h3>
+                    <p class="desc">Ideal para comemorações intimistas e registros essenciais.</p>
+                    <ul>
+                        <li>Cobertura fotográfica completa do evento</li>
+                        <li>Todas as fotos tratadas em alta resolução</li>
+                        <li>Galeria digital para seleção e download</li>
+                        <li>20 ampliações impressas 15x21 cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-pacote featured">
+                <div>
+                    <h3>Clássico</h3>
+                    <p class="desc">O pacote mais amado pelas famílias com quadro e ampliações.</p>
+                    <ul>
+                        <li>Cobertura fotográfica completa do evento</li>
+                        <li>Todas as fotos tratadas em alta resolução</li>
+                        <li>Galeria digital para seleção</li>
+                        <li>10 ampliações impressas 20x30 cm</li>
+                        <li>01 Mini Painel Decorativo 30x45 cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-pacote">
+                <div>
+                    <h3>Premium</h3>
+                    <p class="desc">Experiência completa com Álbum Luxo e Painel Grande.</p>
+                    <ul>
+                        <li>Cobertura fotográfica VIP do evento</li>
+                        <li>Fotos em alta resolução na galeria</li>
+                        <li>01 Álbum Fotográfico Encadernado 40x50 cm (30 págs)</li>
+                        <li>01 Painel Decorativo Grande 50x75 cm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-subtitle" style="margin-top: 50px;">
+            <span>📸 Ensaios (Estúdio / Externo / Temáticos)</span>
+        </div>
+        <div class="pacotes-grid">
+            <div class="card-pacote">
+                <div>
+                    <h3>Ensaio Essencial</h3>
+                    <p class="desc">Para quem deseja renovar as fotos ou ensaio rápido.</p>
+                    <ul>
+                        <li>Sessão fotográfica direcionada</li>
+                        <li>Galeria online exclusiva</li>
+                        <li>Fotos tratadas em alta resolução</li>
+                        <li>10 ampliações 15x21 cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-pacote featured">
+                <div>
+                    <h3>Ensaio Clássico</h3>
+                    <p class="desc">Completo com troca de looks e ampliação de destaque.</p>
+                    <ul>
+                        <li>Sessão fotográfica sem pressa</li>
+                        <li>Galeria online exclusiva</li>
+                        <li>Fotos digitais tratadas</li>
+                        <li>Ampliações impressas 15x21 cm</li>
+                        <li>01 Ampliação Especial 30x45 cm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-pacote">
+                <div>
+                    <h3>Ensaio Premium</h3>
+                    <p class="desc">Guarde seu ensaio em um lindo Álbum Encadernado.</p>
+                    <ul>
+                        <li>Sessão fotográfica completa</li>
+                        <li>Galeria online exclusiva</li>
+                        <li>01 Álbum Luxo 30x20 cm (30 páginas)</li>
+                        <li>01 Ampliação Especial 30x45 cm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulário Dinâmico de Orçamento -->
+    <section class="container" id="orcamento">
+        <div class="section-header">
+            <h2>Monte seu Orçamento</h2>
+            <p>Selecione as opções desejadas e receba o detalhamento direto no WhatsApp</p>
+        </div>
+
+        <div class="form-wrapper">
+            <form id="budgetForm">
+                <div class="form-grid">
+                    <div class="form-group full">
+                        <label>Tipo de Serviço:</label>
+                        <div class="options-grid">
+                            <label class="option-card">
+                                <input type="radio" name="servico" value="Evento (Casamento/15 Anos/Aniversário)" checked onchange="updateSummary()"> Evento
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="servico" value="Ensaio Fotográfico (Estúdio/Externo)" onchange="updateSummary()"> Ensaio Fotográfico
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Pacote Desejado:</label>
+                        <div class="options-grid">
+                            <label class="option-card">
+                                <input type="radio" name="pacote" value="Essencial" checked onchange="updateSummary()"> Essencial
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="pacote" value="Clássico" onchange="updateSummary()"> Clássico
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="pacote" value="Premium" onchange="updateSummary()"> Premium
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Opcionais & Adicionais:</label>
+                        <div class="options-grid">
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Making Of" onchange="updateSummary()"> Making Of</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Filmagem Completa" onchange="updateSummary()"> Filmagem / Vídeo</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Fotos Extras Tratadas" onchange="updateSummary()"> Fotos Extras</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Álbum Maior / Premium" onchange="updateSummary()"> Álbum Maior</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Páginas Extras no Álbum" onchange="updateSummary()"> Páginas Extras</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Painel / Quadro Maior" onchange="updateSummary()"> Painel / Quadro Maior</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Caixa Personalizada para Álbum" onchange="updateSummary()"> Caixa p/ Álbum</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Pen Drive Personalizado" onchange="updateSummary()"> Pen Drive Personalizado</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Segundo Fotógrafo" onchange="updateSummary()"> Segundo Fotógrafo</label>
+                            <label class="option-card"><input type="checkbox" name="opcionais" value="Horas Adicionais de Cobertura" onchange="updateSummary()"> Horas Adicionais</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nome">Seu Nome *</label>
+                        <input type="text" id="nome" class="form-control" placeholder="Digite seu nome completo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cidade">Cidade / Local *</label>
+                        <input type="text" id="cidade" class="form-control" placeholder="Ex: Goiânia, Anápolis..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data">Data do Evento/Ensaio</label>
+                        <input type="date" id="data" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone">WhatsApp / Celular</label>
+                        <input type="tel" id="telefone" class="form-control" placeholder="(62) 99999-9999">
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="obs">Mensagem / Observações</label>
+                        <textarea id="obs" class="form-control" rows="3" placeholder="Conte mais sobre suas ideias, temas ou horários desejados..."></textarea>
+                    </div>
+                </div>
+
+                <div class="budget-summary" id="summaryBox">
+                    <h4>Resumo da sua seleção:</h4>
+                    <p id="summaryText">Serviço: Evento • Pacote: Essencial</p>
+                </div>
+
+                <button type="button" class="btn-whatsapp" onclick="enviarWhatsApp()">
+                    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.572-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                    Solicitar Orçamento via WhatsApp
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Kamila Taylle</div>
+        <p>PHOTOGRAPHY</p>
+        <div class="verse">"Sabemos que todas as coisas cooperam para o bem daqueles que amam a Deus..." — Romanos 8:28</div>
+        <p style="margin-top: 15px;">📍 Atendimento VIP: Goiânia & Anápolis, Goiás</p>
+        <p>📱 WhatsApp: (62) 99321-5075</p>
+        <p style="color: #666; font-size: 0.75rem; margin-top: 25px;">© 2026 Kamila Taylle Fotografias. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Filtragem de Galeria
+        function filterGallery(category) {
+            const cards = document.querySelectorAll('.gallery-card');
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal Lightbox
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = src;
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // Resumo Dinâmico
+        function updateSummary() {
+            const servico = document.querySelector('input[name="servico"]:checked').value;
+            const pacote = document.querySelector('input[name="pacote"]:checked').value;
+            const opcionais = Array.from(document.querySelectorAll('input[name="opcionais"]:checked'))
+                                  .map(cb => cb.value);
+
+            let txt = `<b>Serviço:</b> ${servico} • <b>Pacote:</b> ${pacote}`;
+            if (opcionais.length > 0) {
+                txt += `<br><b>Opcionais:</b> ${opcionais.join(', ')}`;
+            }
+            document.getElementById('summaryText').innerHTML = txt;
+        }
+
+        // Disparo WhatsApp
+        function enviarWhatsApp() {
+            const numeroTelefone = "5562993215075"; 
+
+            const nome = document.getElementById('nome').value.trim();
+            const cidade = document.getElementById('cidade').value.trim();
+            const data = document.getElementById('data').value;
+            const telefone = document.getElementById('telefone').value.trim();
+            const obs = document.getElementById('obs').value.trim();
+
+            const servico = document.querySelector('input[name="servico"]:checked').value;
+            const pacote = document.querySelector('input[name="pacote"]:checked').value;
+            const opcionais = Array.from(document.querySelectorAll('input[name="opcionais"]:checked'))
+                                  .map(cb => cb.value);
+
+            if (!nome || !cidade) {
+                alert("Por favor, preencha o seu Nome e a sua Cidade para continuar.");
+                return;
+            }
+
+            let msg = `Olá, Kamila! Gostaria de solicitar um orçamento:\n\n`;
+            msg += `👤 *Nome:* ${nome}\n`;
+            msg += `📍 *Cidade:* ${cidade}\n`;
+            if (telefone) msg += `📱 *Telefone:* ${telefone}\n`;
+            if (data) msg += `📅 *Data Prevista:* ${data}\n`;
+            msg += `\n📸 *Serviço:* ${servico}\n`;
+            msg += `🎁 *Pacote Escolhido:* ${pacote}\n`;
+
+            if (opcionais.length > 0) {
+                msg += `✨ *Opcionais:* ${opcionais.join(', ')}\n`;
+            }
+
+            if (obs) {
+                msg += `\n📝 *Observações:* ${obs}\n`;
+            }
+
+            msg += `\nFico no aguardo das informações de disponibilidade e investimento!`;
+
+            const url = `https://api.whatsapp.com/send?phone=${numeroTelefone}&text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        // Inicializa resumo
+        updateSummary();
+    </script>
+</body>
+</html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("HTML generated successfully! File size:", len(html_content))
