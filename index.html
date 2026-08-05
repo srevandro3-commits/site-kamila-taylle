@@ -1,16 +1,4 @@
-import pypdf
-
-# Check if logo pdf can be processed or extracted if needed
-try:
-    reader = pypdf.PdfReader('Logo_Kamila.pdf')
-    print("Logo PDF pages:", len(reader.pages))
-    text = reader.pages[0].extract_text()
-    print("Logo text:", text)
-except Exception as e:
-    print("Error reading logo PDF:", e)
-
-# Create index.html with ultra-polished design, gallery tabs/lightbox, and interactive calculator
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -696,19 +684,19 @@ html_content = """<!DOCTYPE html>
         </div>
 
         <div class="gallery-grid" id="galleryGrid">
-            <div class="gallery-card" data-category="15anos" onclick="openLightbox('001-Gaelria.jpg')">
+            <div class="gallery-card" data-category="15anos" onclick="openLightbox('001-Galeria.jpeg')">
                 <img src="001-Gaelria.jpg" alt="Aniversário Especial 31 Anos">
                 <span class="tag">Aniversário</span>
             </div>
-            <div class="gallery-card" data-category="familia" onclick="openLightbox('002-Galeria.jpg')">
+            <div class="gallery-card" data-category="familia" onclick="openLightbox('002-Galeria.jpeg')">
                 <img src="002-Galeria.jpg" alt="Ensaio Família e Gerações">
                 <span class="tag">Família</span>
             </div>
-            <div class="gallery-card" data-category="familia" onclick="openLightbox('003-Galeria.jpg')">
+            <div class="gallery-card" data-category="familia" onclick="openLightbox('003-Galeria.jpeg')">
                 <img src="003-Galeria.jpg" alt="Ensaio Infantil Temático Fazendinha">
                 <span class="tag">Infantil</span>
             </div>
-            <div class="gallery-card" data-category="familia" onclick="openLightbox('004-Galeria.jpg')">
+            <div class="gallery-card" data-category="familia" onclick="openLightbox('004-Galeria.jpeg')">
                 <img src="004-Galeria.jpg" alt="Ensaio Newborn e Bebê">
                 <span class="tag">Newborn</span>
             </div>
@@ -716,7 +704,7 @@ html_content = """<!DOCTYPE html>
                 <img src="005-Galeria.jpeg" alt="Ensaio 15 Anos - Balão Vermelho">
                 <span class="tag">15 Anos</span>
             </div>
-            <div class="gallery-card" data-category="15anos" onclick="openLightbox('006-Galeria.jpg')">
+            <div class="gallery-card" data-category="15anos" onclick="openLightbox('006-Galeria.jpeg')">
                 <img src="006-Galeria.jpg" alt="Retrato 15 Anos - Coroa de Princesa">
                 <span class="tag">15 Anos</span>
             </div>
@@ -724,11 +712,11 @@ html_content = """<!DOCTYPE html>
                 <img src="007-Galeria.jpeg" alt="Ensaio 15 Anos - Estilo Prata">
                 <span class="tag">15 Anos</span>
             </div>
-            <div class="gallery-card" data-category="ensaio" onclick="openLightbox('008-Galeria.jpg')">
+            <div class="gallery-card" data-category="ensaio" onclick="openLightbox('008-Galeria.jpeg')">
                 <img src="008-Galeria.jpg" alt="Ensaio Feminino com Jornal e Estilo">
                 <span class="tag">Ensaio Feminino</span>
             </div>
-            <div class="gallery-card" data-category="ensaio" onclick="openLightbox('009-Galeria.jpg')">
+            <div class="gallery-card" data-category="ensaio" onclick="openLightbox('009-Galeria.jpeg')">
                 <img src="009-Galeria.jpg" alt="Ensaio Externo Country / Lagoa">
                 <span class="tag">Ensaio Externo</span>
             </div>
